@@ -3,7 +3,7 @@ import { Rock } from "./Rock.js";
 import { Paper } from "./Paper.js";
 import { Scissor } from "./Scissor.js";
 
-const MAX = 1;
+const MAX =1;
 
 window.random = function (t) {
   return Math.random() * (t - 20)

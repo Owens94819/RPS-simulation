@@ -81,6 +81,7 @@ export class Obj {
     }
     async mod(obj) {
         const ctx = this.ctx
+        obj.width = obj.height = 20
         obj.id = this.id;
         obj.color = this.color
         obj.x = this.x
