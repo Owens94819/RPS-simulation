@@ -1,0 +1,8 @@
+body{
+  background: #d3d3d3;
+}
+canvas{
+  background: #ffff;
+      /* max-width: 100%;
+        height: auto; */
+}
