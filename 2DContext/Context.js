@@ -1,9 +1,13 @@
+/***
+ * A framework around the 2d context of a canvas
+ * @author {Owens94819}
+ */
 
 import { Rect } from "./Instance/Rect.js"
 import { FakeWorker } from "./Scripts/FakeWorker.js"
 
 export class Context extends EventTarget {
-  #thread = new Worker("./Context/Threads/Context.js");
+  #thread = new Worker("./2DContext/Threads/Context.js");
   #useThread;
   #context;
   #canvas;
