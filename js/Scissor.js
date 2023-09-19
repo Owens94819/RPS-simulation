@@ -1,6 +1,6 @@
 import { Obj } from "./Obj.js";
 import { image } from "./image.js";
-const img = await image("../scissor.svg")
+const img = await image("./../scissor.svg")
 
 export class Scissor extends Obj {
   constructor(ctx,...arg) {
