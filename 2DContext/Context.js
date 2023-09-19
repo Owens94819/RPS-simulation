@@ -9,6 +9,7 @@ import { FakeWorker } from "./Scripts/FakeWorker.js"
 export class Context extends EventTarget {
   #thread = new Worker("./2DContext/Threads/Context.js");
   #useThread;
+  #AutoUpateContext=true;
   #context;
   #canvas;
   #width;
@@ -21,9 +22,10 @@ export class Context extends EventTarget {
   #sharedInstance = Symbol("sharedInstance")
   #onupdate = null
   #oncollision = null
-  constructor(canvas, useThread) {
+  constructor(canvas, useThread, AutoUpateContext) {
     super();
     this.#useThread = useThread
+    this.#AutoUpateContext = AutoUpateContext?true:false;
     this.#width = canvas.width
     this.#height = canvas.height
 
@@ -66,6 +68,9 @@ export class Context extends EventTarget {
     sharedInstance.EventListeners.forEach(function (callback) {
       object.removeEventListener(callback.name, callback)
     })
+
+    delete sharedInstance.AutoUpateContext;
+
     const { width, height } = this.#canvas;
     this.#thread.postMessage({ width, height, context: objectsData, objectDataId })
   }
@@ -116,10 +121,7 @@ export class Context extends EventTarget {
     sharedInstance.objectData = objectData
     sharedInstance.canvas = canvas
 
-    function update({ detail }) {
-      self.#update_event(detail, { object, objectData, canvas })
-    }
-    sharedInstance.EventListeners.push(update)
+
 
     let idList = this.#idLists[object.id]
     if (!idList) {
@@ -128,11 +130,24 @@ export class Context extends EventTarget {
       idList.push(object)
     }
     sharedInstance.idLists = [idList, this.#idLists]
-
-    const { width, height } = this.#canvas;
+    sharedInstance.AutoUpateContext = this.#AutoUpateContext
+    // const { width, height } = this.#canvas;
     //thread.postMessage({width, height, context: objectsData, id}) 
-    update({ detail: "-" + sharedInstance.props.join("-") + "-" })
-    object.addEventListener(update.name, update);
+      function update({ detail }) {
+        self.#update_event(detail, { object, objectData, canvas })
+      }
+      sharedInstance.EventListeners.push(update)
+      update({ detail: "-" + sharedInstance.props.join("-") + "-" })
+      object.addEventListener(update.name, update);
+  }
+
+  updateContext(...props){
+    props='-'+props.join('-')+'-'
+    const canv = this.#canvas;
+    const objectsData = this.#objectsData;
+    const thread = this.#thread;
+
+    thread.postMessage({ width: canv.width, height: canv.height, context: objectsData })
   }
 
   getObjectById(id) {
@@ -236,19 +251,21 @@ export class Context extends EventTarget {
 
     // this.#updateObject(object, ctx)
 
+    
     const imageBitmap = canvas.transferToImageBitmap();
 
     this.#transferables[id] =
-      objectData.imageBitmap = imageBitmap;
-
+    objectData.imageBitmap = imageBitmap;
+    
     objectsData[objectDataId] = objectData;
 
-
+    if (this.#AutoUpateContext) {
     thread.postMessage({ width: canv.width, height: canv.height, context: objectsData, objectDataId })
     const dispatchEvent = e => super.dispatchEvent(e);
     setTimeout(function () {
       dispatchEvent(new Event("update"));
     }, 100)
+  }
     //thread.postMessage({width,height,context:self.#objectsData}, self.#transferables)
     //this.#transferables[id]= (new Uint8Array()).buffer
   }

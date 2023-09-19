@@ -16,6 +16,8 @@ export class CTXObject extends EventTarget{
       index:null,
       EventListeners:[],
       emit: function(e){
+        // if (!this.#private_obj.AutoUpateContext) return;
+
         this.#emit_index+=e+"-";
         const self=this;
         const index =this.#emit_index.length; 
