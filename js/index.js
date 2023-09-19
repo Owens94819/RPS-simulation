@@ -1,4 +1,4 @@
-import { Context } from "../2DContext/Context.js";
+import { Context } from "./../2DContext/Context.js";
 import { Rock } from "./Rock.js";
 import { Paper } from "./Paper.js";
 import { Scissor } from "./Scissor.js";
