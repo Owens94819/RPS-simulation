@@ -9,7 +9,7 @@ window.random = function (t) {
   return Math.random() * (t - 20)
 }
 
-const ctx = new Context(canvas, false, false);
+const ctx = new Context(canvas, true, false);
 
 ctx.oncollision = function ({ detail: { top, bottom } }) {
   const type = top.id + bottom.id;
