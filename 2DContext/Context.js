@@ -261,12 +261,8 @@ export class Context extends EventTarget {
 
     if (this.#AutoUpateContext) {
     thread.postMessage({ width: canv.width, height: canv.height, context: objectsData, objectDataId })
-    const dispatchEvent = e => super.dispatchEvent(e);
-    setTimeout(function () {
-      dispatchEvent(new Event("update"));
-    }, 100)
   }
-    //thread.postMessage({width,height,context:self.#objectsData}, self.#transferables)
+  //thread.postMessage({width,height,context:self.#objectsData}, self.#transferables)
     //this.#transferables[id]= (new Uint8Array()).buffer
   }
 
@@ -283,10 +279,11 @@ export class Context extends EventTarget {
       context.clearRect(0, 0, width, height)
       context.drawImage(data, 0, 0)
       data.close();
-      //super.dispatchEvent(new Event("update"));
+      super.dispatchEvent(new Event("update"));
       //  }
     } else if (data === null) {
-      // super.dispatchEvent(new Event("update"));
+      const dispatchEvent = () => super.dispatchEvent(new Event("update"));
+      requestAnimationFrame(dispatchEvent)
     } else if ((typeof data) === "object") {
       const useThread = this.#useThread;
       let top, bottom;
@@ -327,6 +324,7 @@ export class Context extends EventTarget {
       return this.#onupdate = null
     }
     super.addEventListener("update", foo)
+    super.dispatchEvent(new Event('update'))
     return this.#onupdate = foo
   }
   set oncollision(foo) {

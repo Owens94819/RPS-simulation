@@ -4,7 +4,7 @@ export class Obj {
     ctx;
     objective;
     targetObject;
-    speed = 2;
+    speed = 3;
     constructor({ id, color, ctx, x, y, objective, backgroundImage }, ...arg) {
         this.id = id
         this.color = color
@@ -66,6 +66,7 @@ export class Obj {
         _obj.objective = this.objective;
 
         _obj.targetObject && (delete _obj.targetObject.pinned);
+        obj.targetObject && (delete obj.targetObject.pinned);
 
         o_obj.id = this.obj.id
         // _obj.id = this.id

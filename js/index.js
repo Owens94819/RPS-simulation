@@ -3,13 +3,13 @@ import { Rock } from "./Rock.js";
 import { Paper } from "./Paper.js";
 import { Scissor } from "./Scissor.js";
 
-const MAX =2;
+const MAX = 2;
 
 window.random = function (t) {
   return Math.random() * (t - 20)
 }
 
-const ctx = new Context(canvas, false, false);
+const ctx = new Context(canvas, 1, false);
 
 ctx.oncollision = function ({ detail: { top, bottom } }) {
   const type = top.id + bottom.id;
@@ -58,10 +58,8 @@ str=`
 anim=function() {
   ${str}
    ctx.updateContext('x','y','backgroundImage');
-   requestAnimationFrame(anim)
-}
-`;
-
-eval(str);
-
-requestAnimationFrame(anim)
+  }
+  `;
+  
+  eval(str);
+  ctx.onupdate=anim
