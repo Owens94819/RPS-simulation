@@ -4,7 +4,7 @@ export class Obj {
     ctx;
     objective;
     targetObject;
-    speed = 3;
+    speed = 2;
     constructor({ id, color, ctx, x, y, objective, backgroundImage }, ...arg) {
         this.id = id
         this.color = color
