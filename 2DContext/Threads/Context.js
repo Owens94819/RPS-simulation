@@ -1,4 +1,4 @@
-importScripts("./../Scripts/Render/worker.js")
+importScripts("./../Scripts/Render/Worker.js")
 
 self.onmessage=({data})=>{
 //postMessage(true)
