@@ -37,7 +37,7 @@ ctx.oncollision = function ({ detail: { top, bottom } }) {
   }
 }
 
-var arr = []
+var arr = [];
 var str = '';
 for (var i = 0; i < MAX; i++) {
   const rock = new Rock(ctx);
