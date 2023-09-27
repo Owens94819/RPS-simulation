@@ -1,14 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="height=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/index.css">
   <title>RPS Game</title>
-</head> 
+</head>
+
 <body>
   <h1>RPS Game</h1>
-	<canvas id="canvas" width="300" height="300"></canvas>
+  <canvas id="canvas" width="300" height="300"></canvas>
+  <script type="null">
+    // function OffscreenCanvas(){
+    //   const cnv  =document.createElement("canvas")
+    // }
+    class OffscreenCanvas {
+      #cnv
+      constructor(width = 0, height = 0) {
+        const cnv = document.createElement("canvas")
+        // cnv.getContext("bitmaprenderer")
+        window.cnv = this.#cnv = cnv
+        console.log(this.#cnv);
+      }
+      transferToImageBitmap(...arg){
+        return this.#cnv//.getContext('2d').createImageData(this.#cnv.width, this.#cnv.height)
+      }
+      getContext(...arg) {
+        return this.#cnv.getContext(...arg)
+      }
+      set width(val) {
+        this.#cnv.width = val
+      }
+      set height(val) {
+        this.#cnv.height = val
+      }
+      get width() {
+        return this.#cnv.width
+      }
+      get height() {
+        return this.#cnv.height
+      }
+    }
+  </script>
   <script src="js/index.js" type="module"></script>
 </body>
+
 </html>

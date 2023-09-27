@@ -8,8 +8,10 @@ export class Paper extends Obj{
       ctx,
       id: "p",
       color: "rgba(0,0,0,0)",
-      x: (ctx.width) - 60,
+      x: random(ctx.width),
       y: random(ctx.height),
+      width: 10,
+      height: 10,
       objective: "r",
       backgroundImage: img
     }, ...arg);

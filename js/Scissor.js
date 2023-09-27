@@ -8,8 +8,10 @@ export class Scissor extends Obj {
       ctx,
       id: "s",
       color: "rgba(0,0,0,0)",
-      x: random(ctx.width - 60),
-      y: 0,
+      x: random(ctx.width),
+      y: random(ctx.height),
+      width: 10,
+      height: 10,
       objective: "p",
       backgroundImage: img
     },...arg);

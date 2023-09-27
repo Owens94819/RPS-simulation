@@ -5,11 +5,13 @@ export class Obj {
     objective;
     targetObject;
     speed = 2;
-    constructor({ id, color, ctx, x, y, objective, backgroundImage }, ...arg) {
+    constructor({ id, color, ctx, x, y, objective, backgroundImage,width,height }, ...arg) {
         this.id = id
         this.color = color
         this.x = x
         this.y = y
+        this.width = width
+        this.height = height
         this.objective = objective
         this.backgroundImage = backgroundImage
 
@@ -36,11 +38,12 @@ export class Obj {
         const ctx = this.ctx
 
         let targetObject = this.targetObject;
-        if (!targetObject || !targetObject.isConnected || targetObject.id !== this.objective) {
+        if (!targetObject || !targetObject.isConnected || targetObject.id !== this.objective ) {
             this.targetObject = targetObject = this.getObjective();
-        }
+        } 
 
         if (!targetObject) return
+        // if ( targetObject.id === obj.id) return
 
         const ox = targetObject.x;
         const oy = targetObject.y;
@@ -64,12 +67,15 @@ export class Obj {
         const ctx = this.ctx
 
         _obj.objective = this.objective;
-
+        // _obj.objective = obj.objective;
         _obj.targetObject && (delete _obj.targetObject.pinned);
         obj.targetObject && (delete obj.targetObject.pinned);
 
-        o_obj.id = this.obj.id
-        // _obj.id = this.id
+        // delete _obj.targetObject;
+        // delete obj.targetObject;
+
+        // o_obj.id = obj.id
+        _obj.id = this.id
         o_obj.color = this.obj.color
         o_obj.backgroundImage = this.obj.backgroundImage
         this.collided = true
@@ -77,12 +83,14 @@ export class Obj {
     getObjective() {
         const ctx = this.ctx
         let objective = ctx.getAllObjectById(this.objective).find(e => !e.pinned);
+        if (!objective) objective = ctx.getObjectById(this.objective)
         objective && (objective.pinned = true)
         return objective
     }
     async mod(obj) {
         const ctx = this.ctx
-        obj.width = obj.height = 20
+        obj.width = this.width
+         obj.height = this.height
         obj.id = this.id;
         obj.color = this.color
         obj.x = this.x

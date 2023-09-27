@@ -7,8 +7,10 @@ export class Rock extends Obj{
       ctx,
       id: "r",
       color: "rgba(200,0,0,0)",
-      x: random(ctx.width - 160),
-      y: ctx.height - 160,
+      x: random(ctx.width),
+      y: random(ctx.height),
+      width: 10,
+      height: 10,
       objective: "s",
       backgroundImage: img
     }, ...arg);

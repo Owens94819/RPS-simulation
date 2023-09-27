@@ -47,7 +47,7 @@ export class Rect extends CTXObject {
       } else {
         lists[v] = [this]
       }
-      if (lists[this.#id].length === 0) {
+      if (lists[this.#id]&&lists[this.#id].length === 0) {
         delete lists[this.#id];
       }
     }
@@ -66,16 +66,21 @@ export class Rect extends CTXObject {
     this.#emit("backgroundImage");
   }
   set width(v) {
-    this.#width = parseInt(v) || 0
+    v = parseInt(v) || 1
+    if (v<1) v=1;
+    this.#width = v
     this.#emit("width");
   }
   set height(v) {
-    this.#height = parseInt(v) || 0
+    v = parseInt(v) || 1
+    if (v<1) v=1;
+    this.#height = v
     this.#emit("height");
   }
   set index(v) {
     v = parseInt(v) || 0
-    this.#index = v < 0 ? 0 : v;
+    if (v<0) v=0;
+    this.#index = v;
     this.#emit("index");
   }
   set x(v) {

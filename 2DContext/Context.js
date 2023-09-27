@@ -33,7 +33,7 @@ export class Context extends EventTarget {
     !useThread && (this.#thread = new FakeWorker(ctx));
     const thread = this.#thread;
     console.log(thread);
-    thread.onmessage = (ev) => { this.#message(ev.data || ev.detail) };
+    thread.onmessage = (ev) => {this.#message(ev.data || ev.detail) };
 
     ctx.save();
     this.#context = ctx
@@ -95,7 +95,7 @@ export class Context extends EventTarget {
 
     const thread = this.#thread;
     const objectsData = this.#objectsData;
-    const objectData = { imageBitmap, x, y };
+    const objectData = { imageBitmap, x, y, width: imageBitmap.width, height: imageBitmap.height };
 
     const id =
       this.#transferables.push(imageBitmap) - 1
@@ -172,6 +172,7 @@ export class Context extends EventTarget {
       if (callback(list[i])) return list[i];
     }
   }
+
   // getAllObject() {
   //   const list = this.#idLists
   //   fo
@@ -255,9 +256,12 @@ export class Context extends EventTarget {
     const imageBitmap = canvas.transferToImageBitmap();
 
     this.#transferables[id] =
-    objectData.imageBitmap = imageBitmap;
+      objectData.imageBitmap = imageBitmap;
+
+    objectData.width = imageBitmap.width;
+    objectData.height = imageBitmap.height;
     
-    objectsData[objectDataId] = objectData;
+    // objectsData[objectDataId] = objectData;
 
     if (this.#AutoUpateContext) {
     thread.postMessage({ width: canv.width, height: canv.height, context: objectsData, objectDataId })

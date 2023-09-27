@@ -1,31 +1,19 @@
 function Render({ width, height, context, objectDataId }, postMessage, ctx, fromWorker) {
-  const cord = [];
   for (let i = 0; i < context.length; i++) {
-    if (!context[i]) continue;
-    const { imageBitmap, x, y } = context[i];
-    const { width, height } = imageBitmap;
-    let id;
-    for (let h = 0; h < height; h++) {
-      if (id >= 0) break;
-      for (let w = 0; w < width; w++) {
-        const _cord = (y + h) + "-" + (w + x);
-        // if (objectDataId === i) {
-          id = cord.lastIndexOf(_cord)
-          cord.push(_cord)
-          if (id >= 0) {
-            for (let _i = id; _i < cord.length; _i++) {
-              if ((typeof cord[_i]) === "number") {
-                   postMessage({ bottom: cord[_i], top: i })
-                  break;
-              }
-            }
-            break;
-          }
-        // }
-      }
+    const _context = context[i]
+    if (!_context) continue;
+    const { imageBitmap, x, y, width, height } = _context;
+    let x_max = width + x
+    let y_max = height + y
+
+    for (let i1 = i - 1; i1 >= 0; i1--) {
+      let { width: Bwidth, height: Bheight, x: Bx, y: By } = context[i1];
+      let Bx_max = Bwidth + Bx
+      let By_max = Bheight + By
+      if ((Bx_max > x && Bx < x_max) && (By_max > y && By < y_max)) postMessage({ bottom: i1, top: i });
     }
-    cord.push(i)
-    ctx.drawImage(imageBitmap, x, y);
+
+     ctx.drawImage(imageBitmap, x, y);
   }
 
     const imageBitmap = ctx.canvas.transferToImageBitmap();
